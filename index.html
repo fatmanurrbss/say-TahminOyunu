@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- CSS only -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Sayı Tahmin Oyunu</title>
+    <style>
+      *{
+          padding:0;
+          margin: 0;
+          box-sizing: border-box;
+      }
+      body{
+          width: 100vw;
+          height: 100vh;
+          color: white;
+          background-color: #0cbaba;
+          background-image: linear-gradient(315deg, #0cbaba 0%, #5c0359 74%);
+          display: flex;
+      }
+      .container{
+          width: 600px;
+          height: 500px;
+          position: absolut;
+         position: relative;
+         margin: auto;
+         padding-top: 5% ;
+      }
+   
+
+    </style>
+</head>
+<body>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+    <h1 class="mt-5">Sayı Tahmin Oyunu</h1>
+    <div class="oyun">
+        <p><span class="min">1</span> ile <span class="max">99</span> Arasınından Doğru Sayıyı Tahmin Ediniz. </p>
+        <p>Doğru Sayı İçin 5 Tahmin Hakkınız Bulunmakta :)</p>
+        <div class="form-group d-flex gap-3">
+            <input type="number" max="99" min="1" autocomplete="off" placeholder="Tahmin Ettiğiniz Sayıyı Giriniz.." class="form-control" id="kutu">
+            <button type="submit" class="form-control btn btn-primary" id="buton">Tahmin Et</button>
+        </div>
+        <p class="mt-2" id="sonuc"></p>
+        <p class="mt-2" id="ipucu"></p>
+    </div>
+    </div>
+</div>
+</div>
+
+
+<script>
+
+let min = 1,
+    max = 99,
+    dogruTahmin = sayi(min,max),
+    tahminHakki = 5;
+var tmz ="";
+var sonuc = $('#sonuc');
+var kutu = $('#kutu');
+var buton = $("#buton");
+
+$('.min').text(min);
+$('.max').text(max);
+
+buton.on("click",function(){
+    if (buton.text() == "Tekrar Oyna") {
+         location.reload();
+    }
+})
+$('#buton').bind("click", function () {
+  if (kutu.val() == "" ) {
+      mesaj("Lütfen 1 ile 99 Arası Bir Sayı Giriniz !","rgb(247, 162, 247)") ;
+  } else if (kutu.val() == dogruTahmin) {
+      mesaj(`Tebrikler Kazandınız!Doğru Tahmin : ${dogruTahmin}`,"green",true,"green");
+       $("#ipucu").css("display", "none");
+  } else{
+    tahminHakki -= 1;
+        if (tahminHakki == 0 || tahminHakki <= 0) {
+           mesaj(`Tahmin Hakkın Bitti :( Doğru Tahmin : ${dogruTahmin}`,"rgb(247, 162, 247)",true)
+            $("#ipucu").css("display", "none");
+           buton.text("Tekrar Oyna");
+        }else{
+            if (kutu.val() > dogruTahmin) {
+                $("#ipucu").text("Daha Küçük Bir Sayı Tahmin Ediniz..");
+            } if (kutu.val() < dogruTahmin)  {
+                $("#ipucu").text("Daha Büyük Bir Sayı Tahmin Ediniz..");
+            }
+           mesaj(`Kalan Tahmin Hakkınız : ${tahminHakki} `,"rgb(247, 162, 247)");
+           $('#kutu').attr({ value: '' });
+           
+        }
+  }
+});
+  function mesaj (msj,color,T) {
+    durum = kutu.prop("disabled", T);
+    color= sonuc.css("color",color);
+    sonuc.text(msj);
+}
+function sayi (min,max){
+  return Math.floor(Math.random() * (max - min + 1) + 1);
+}
+
+
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+</body>
+</html>
